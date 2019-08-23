@@ -853,10 +853,8 @@ class Mail implements \JsonSerializable
             $personalization->addCustomArg($custom_arg);
             $this->addPersonalization($personalization);
             return;
-        } else {
-            if ($this->personalization[0] != null) {
-                $this->personalization[0]->addCustomArg($custom_arg);
-            } else if ($this->personalization[$personalizationIndex] != null) {
+        } else if ($personalizationIndex != null) {
+            if ($this->personalization[$personalizationIndex] != null) {
                 $this->personalization[$personalizationIndex]->addCustomArg(
                     $custom_arg
                 );
@@ -872,7 +870,13 @@ class Mail implements \JsonSerializable
                 }
             }
             return;
-        }
+        } else {
+            if ($this->personalization[0] != null) {
+                $this->personalization[0]->addCustomArg($custom_arg);
+	    } else {
+                $this->addPersonalization($personalization);
+	    }
+	}
     }
 
     /**
